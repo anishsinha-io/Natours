@@ -79,5 +79,4 @@ exports.getAll = (Model) =>
         data: doc,
       },
     });
-    console.log(doc.length);
   });
