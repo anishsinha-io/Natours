@@ -18,7 +18,7 @@ const createSendToken = (user, statusCode, req, res) => {
   res.cookie('jwt', token, {
     expires: new Date(Date.now() + process.env.JWT_COOKIE_EXPIRES_IN),
     httpOnly: true,
-    secure: req.secure || req.headers['x-forwarded-proto'] === 'https';
+    secure: req.secure || req.headers['x-forwarded-proto'] === 'https',
   });
   user.password = undefined;
   res.status(statusCode).json({
@@ -55,7 +55,7 @@ exports.login = catchAsync(async (req, res, next) => {
     return next(new AppError('Incorrect email or password!', 401));
   }
 
-  createSendToken(user, 200,req, res);
+  createSendToken(user, 200, req, res);
 });
 
 exports.logout = (req, res) => {
@@ -166,7 +166,7 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
   user.passwordResetExpires = undefined;
   await user.save();
 
-  createSendToken(user, 200,req, res);
+  createSendToken(user, 200, req, res);
 });
 
 exports.changePassword = catchAsync(async (req, res, next) => {
@@ -177,7 +177,7 @@ exports.changePassword = catchAsync(async (req, res, next) => {
   user.password = req.body.newPassword;
   user.passwordConfirm = req.body.passwordConfirm;
   await user.save();
-  createSendToken(user, 200,req, res);
+  createSendToken(user, 200, req, res);
 });
 
 //only for rendered pages, no errors
